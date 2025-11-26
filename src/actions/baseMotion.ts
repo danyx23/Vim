@@ -53,12 +53,6 @@ export abstract class BaseMovement extends BaseAction {
    */
   isRepeat = false;
 
-  /**
-   * This is for commands like $ which force the desired column to be at
-   * the end of even the longest line.
-   */
-  public setsDesiredColumnToEOL = false;
-
   protected selectionType = SelectionType.Concatenating;
 
   constructor(keysPressed?: string[], isRepeat?: boolean) {
@@ -114,7 +108,7 @@ export abstract class BaseMovement extends BaseAction {
     count: number,
   ): Promise<Position | IMovement> {
     let result!: Position | IMovement;
-    let prevResult = failedMovement(vimState);
+    let prevResult: Position | IMovement = failedMovement(vimState);
     let firstMovementStart = position;
 
     count = clamp(count, 1, 99999);
@@ -143,8 +137,8 @@ export abstract class BaseMovement extends BaseAction {
         }
 
         position = this.adjustPosition(position, result, lastIteration);
-        prevResult = result;
       }
+      prevResult = result;
     }
 
     if (this.selectionType === SelectionType.Concatenating && isIMovement(result)) {
